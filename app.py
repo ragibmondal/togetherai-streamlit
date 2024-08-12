@@ -30,10 +30,12 @@ def generate_response(prompt, model, temperature, max_tokens):
             stop=["<|eot_id|>"],
             stream=True
         )
-        return response.choices[0].message.content
+        for chunk in response:
+            if chunk.choices and chunk.choices[0].delta.content:
+                yield chunk.choices[0].delta.content
     except Exception as e:
         st.error(f"An error occurred: {str(e)}")
-        return None
+        yield None
 
 # Main app
 def main():
@@ -43,7 +45,7 @@ def main():
     st.sidebar.header("Model Settings")
     model = st.sidebar.selectbox(
         "Select Model",
-        ["meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo"]
+        ["meta-llama/Llama-2-70b-chat-hf", "togethercomputer/RedPajama-INCITE-7B-Instruct"]
     )
     temperature = st.sidebar.slider("Temperature", min_value=0.1, max_value=1.0, value=0.7, step=0.1)
     max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=1000, value=512, step=50)
@@ -67,12 +69,13 @@ def main():
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
-            # Simulate stream of response with milliseconds delay
-            for chunk in generate_response(prompt, model, temperature, max_tokens).split():
-                full_response += chunk + " "
-                time.sleep(0.05)
-                # Add a blinking cursor to simulate typing
-                message_placeholder.markdown(full_response + "▌")
+            # Process the streaming response
+            for chunk in generate_response(prompt, model, temperature, max_tokens):
+                if chunk is not None:
+                    full_response += chunk
+                    time.sleep(0.05)
+                    # Add a blinking cursor to simulate typing
+                    message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": full_response})
