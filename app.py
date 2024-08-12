@@ -48,7 +48,7 @@ def main():
         ["meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"]
     )
     temperature = st.sidebar.slider("Temperature", min_value=0.1, max_value=1.0, value=0.7, step=0.1)
-    max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=1000, value=512, step=50)
+    max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=8000, value=2024, step=50)
 
     # Initialize chat history
     if "messages" not in st.session_state:
