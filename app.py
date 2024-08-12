@@ -45,7 +45,7 @@ def main():
     st.sidebar.header("Model Settings")
     model = st.sidebar.selectbox(
         "Select Model",
-        ["meta-llama/Llama-2-70b-chat-hf", "togethercomputer/RedPajama-INCITE-7B-Instruct"]
+        ["meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo", "togethercomputer/RedPajama-INCITE-7B-Instruct"]
     )
     temperature = st.sidebar.slider("Temperature", min_value=0.1, max_value=1.0, value=0.7, step=0.1)
     max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=1000, value=512, step=50)
