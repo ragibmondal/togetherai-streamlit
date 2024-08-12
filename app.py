@@ -41,7 +41,7 @@ st.title("🤖 AI Chat Assistant")
 st.sidebar.header("Model Settings")
 model = st.sidebar.selectbox(
     "Select Model",
-    ["meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "meta-llama/Meta-Llama-3.1-70B-Instruct"]
+    ["meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo", "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo"]
 )
 temperature = st.sidebar.slider("Temperature", min_value=0.1, max_value=1.0, value=0.7, step=0.1)
 max_tokens = st.sidebar.slider("Max Tokens", min_value=50, max_value=1000, value=512, step=50)
